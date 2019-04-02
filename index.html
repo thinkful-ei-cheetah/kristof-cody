@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Park Finder: Find a park near you!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find parks using api">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <h1>Welcome to Park Finder!</h1>
+    <form role="form">
+      <Label for="search-field">Which state(s) would you like to search in?</label>
+    
+      <br>
+
+      <input type="text" id="search-field" name="search-field" placeholder="eg: Texas, Florida">
+      <br>
+      <br>
+      <label for="max-results"> Limit results to:</label>
+      <br>
+      <input type="number" max="50" min="1" value="10" id="max-results">
+      <button class="search-btn">Search!</button>
+    </form>
+    <section role="list">
+      <article role="listitem" class="search-result">
+        <div class="info-section">
+          <div class="image-name-container">
+            <div class="img-box">
+              <div class="holder"></div>
+            </div>
+            <div class="park-name-and-adr">
+              <h2 class="park-name">Zion National park</h2>
+              <div class="park-address">
+                <span class= "address-text address-line-1">2 Officers Row</span>
+                <br>
+                <span class= "address-text address-line-2">Yellowstone National Park Headquarters</span>
+                <br>
+                <span class= "address-text address-line-3">Yellowstone National Park, WY 82190</span>
+              </div>
+            </div>
+          </div>
+          <h4 class="park-descripion">Visit Yellowstone and experience the world's first national park. Marvel at a volcano's hidden power rising up in colorful hot springs, mudpots, and geysers. Explore mountains, forests, and lakes to watch wildlife and witness the drama of the natural world unfold. Discover the history that led to the conservation of our national treasures 'for the benefit and enjoyment of the people.
+          </h4>
+        </div>
+        <div class="website-link">
+          <a href="" class="visit-page"><span >Visit Now ></span></a>
+        </div>
+      </article>
+      <article role="listitem" class="search-result">
+          <div class="info-section">
+            <div class="image-name-container">
+              <div class="img-box">
+                <div class="holder"></div>
+              </div>
+              <div class="park-name-and-adr">
+                <h2 class="park-name">Zion National park</h2>
+                <div class="park-address">
+                  <span class= "address-text address-line-1">2 Officers Row</span>
+                  <br>
+                  <span class= "address-text address-line-2">Yellowstone National Park Headquarters</span>
+                  <br>
+                  <span class= "address-text address-line-3">Yellowstone National Park, WY 82190</span>
+                </div>
+              </div>
+            </div>
+            <h4 class="park-descripion">Visit Yellowstone and experience the world's first national park. Marvel at a volcano's hidden power rising up in colorful hot springs, mudpots, and geysers. Explore mountains, forests, and lakes to watch wildlife and witness the drama of the natural world unfold. Discover the history that led to the conservation of our national treasures 'for the benefit and enjoyment of the people.
+            </h4>
+          </div>
+          <div class="website-link">
+            <a href="" class="visit-page"><span >Visit Now ></span></a>
+          </div>
+        </article>
+        <article role="listitem" class="search-result">
+            <div class="info-section">
+              <div class="image-name-container">
+                <div class="img-box">
+                  <div class="holder"></div>
+                </div>
+                <div class="park-name-and-adr">
+                  <h2 class="park-name">Zion National park</h2>
+                  <div class="park-address">
+                    <span class= "address-text address-line-1">2 Officers Row</span>
+                    <br>
+                    <span class= "address-text address-line-2">Yellowstone National Park Headquarters</span>
+                    <br>
+                    <span class= "address-text address-line-3">Yellowstone National Park, WY 82190</span>
+                  </div>
+                </div>
+              </div>
+              <h4 class="park-descripion">Visit Yellowstone and experience the world's first national park. Marvel at a volcano's hidden power rising up in colorful hot springs, mudpots, and geysers. Explore mountains, forests, and lakes to watch wildlife and witness the drama of the natural world unfold. Discover the history that led to the conservation of our national treasures 'for the benefit and enjoyment of the people.
+              </h4>
+            </div>
+            <div class="website-link">
+              <a href="" class="visit-page"><span >Visit Now ></span></a>
+            </div>
+          </article>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

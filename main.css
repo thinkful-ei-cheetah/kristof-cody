@@ -1,0 +1,83 @@
+
+*{
+  box-sizing: border-box;
+}
+
+body{
+  width: 100%;
+}
+
+h1{
+  text-align: center;
+}
+
+form{
+  width: 350px;
+  margin-left: 15px;
+}
+
+label{
+  padding-bottom: 10px;
+  font-size: 20px;
+}
+
+.search-btn{
+  display: block;
+  margin: 15px 0px;
+}
+
+section{
+  margin-top: 2px;
+  padding-top: 10px;
+  width: 90%;
+  border-top: 1px solid black;  
+}
+article{
+  margin: 15px 5px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-bottom: 1px solid grey;
+}
+
+.park-name{
+  margin-bottom: 3px;
+  margin-top: 0px;
+}
+
+.park-address{
+  margin-top: 0px;
+}
+
+.search-result{
+  display: flex;
+}
+.website-link{
+  text-align: center;
+  width: 100px;
+  margin-top: 140px;
+  font-size:20px;
+  margin-left: 10px;
+
+}
+
+.info-section{
+
+  max-width: 70%;
+}
+.image-name-container{
+  display: flex;
+}
+
+.park-name-and-adr{
+  margin-left: 10px;
+}
+
+.holder{
+  border: 1px solid black;
+  width: 150px;
+  height: 150px;
+}
+
+.visit-page{
+  color: blue;
+}
