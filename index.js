@@ -26,7 +26,7 @@ function handleSearchClick(){
       validateEntry(searchEntry);
       STORE.searchValue = searchEntry;
       STORE.maxResults = maxResults;
-      getParkInfo(STORE.searchValue);
+      getParkInfo(STORE.searchValue, STORE.maxResults);
     } catch (e){
       console.log(e);
       renderError(e.message);
@@ -42,13 +42,39 @@ function validateEntry(entry){
   if (entry === '' || entry=== null) throw new Error('Please enter a valid state. For eg. Use Texas, instead of Tx.');
 }
 
-function handleQuery
+//function handleQuery
 
+function handleQueryParams(paramsObj){
+  const keys = Object.keys(paramsObj);
+  const queryItems = keys.map(key=>`${encodeURIComponent(key)}=${encodeURIComponent(paramsObj[key])}`);
+  console.log(queryItems);
+  return queryItems.join('&');
 
-function getParkInfo(query, maxValue){
+}
 
+function handleErrors(res){
+  if (!res.ok) throw new Error('Problem Getting Data');
+  return res.Json();
+}
 
-  const URL = `https://developer.nps.gov/api/v1/parks?limit=${maxValue}&q=${query}&fields=addresses&api_key=ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj" -H "accept: application/json"`;
+function getParkInfo(stateCodes, maxValue){
+  console.log(maxValue);
+  const params = {
+    stateCode: stateCodes,
+    limit: maxValue,
+  };
 
+  const queryString = handleQueryParams(params);
+  const searchURL = 'https://developer.nps.gov/api/v1/parks';
+  const URL = searchURL + '?' + queryString;
+  console.log(URL);
+ 
+  fetch(URL, {
+    headers: {
+      'Cache-Control': 'no-cache',
+      'X-Api-Key': 'ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj',
+      'Access-Control-Allow-Origin': '*',
+    }
+  });
 }
 
