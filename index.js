@@ -94,6 +94,7 @@ function handleSearchClick(){
       checksKeywithObj(searchEntry);
       getParkInfo(STORE.searchValue, STORE.maxResults);
       
+      
     } catch (e){
       console.log(e);
       renderError(e.message);
@@ -133,35 +134,39 @@ function validateEntry(entry){
   if (entry === '' || entry=== null) throw new Error('Please enter a valid state. For eg. Use Texas, instead of Tx.');
 }
 
-// function handleQuery(){
 
-// }
-function generateHtml(){
+function generateHtml(parkObj){
+  
+  
   return `<article role="listitem" class="search-result">
   <div class="info-section">
     <div class="image-name-container">
       <div class="img-box">
-        <div class="holder"></div>
       </div>
       <div class="park-name-and-adr">
-        <h2 class="park-name">Zion National park</h2>
+        <h2 class="park-name">${parkObj.name}</h2>
         <div class="park-address">
-          <span class= "address-text address-line-1">2 Officers Row</span>
+          <span class= "address-text address-line-1">${parkObj.address.line1}</span>
           <br>
-          <span class= "address-text address-line-2">Yellowstone National Park Headquarters</span>
+          <span class= "address-text address-line-2">${parkObj.address.line2}</span>
           <br>
-          <span class= "address-text address-line-3">Yellowstone National Park, WY 82190</span>
+          <span class= "address-text address-line-3">${parkObj.address.city} ${parkObj.address.state} ${parkObj.address.zipCode}</span>
         </div>
       </div>
     </div>
-    <h4 class="park-descripion">Visit Yellowstone and experience the world's first national park. Marvel at a volcano's hidden power rising up in colorful hot springs, mudpots, and geysers. Explore mountains, forests, and lakes to watch wildlife and witness the drama of the natural world unfold. Discover the history that led to the conservation of our national treasures 'for the benefit and enjoyment of the people.
-    </h4>
+    <h4 class="park-descripion">${parkObj.description}</h4>
   </div>
   <div class="website-link">
-    <a href="" class="visit-page"><span >Visit Now ></span></a>
+    <a href="${parkObj.weblink}" class="visit-page"><span >Visit Now ></span></a>
   </div>
 </article>`;
 //function handleQuery
+}
+function fullHtmlString(){
+  STORE.results.length = 0;
+  let artical = STORE.results.map(item => generateHtml(item));
+  return artical.join('');
+}
 
 function handleQueryParams(paramsObj){
   const keys = Object.keys(paramsObj);
@@ -172,7 +177,7 @@ function handleQueryParams(paramsObj){
 }
 
 function handleErrors(res){
-  console.log(res)
+  console.log(res);
   if (!res.ok) throw new Error('Problem Getting Data');
   return res.json();
 }
@@ -199,7 +204,8 @@ function getParkInfo(stateCodes, maxValue, addFields = 'addresses'){
     }
   })
     .then(handleErrors)
-    .then(setStore);
+    .then(setStore)
+    .then(render());
 }
 
 function setStore(obj){
@@ -221,6 +227,6 @@ function setStore(obj){
   });
 }
 function render(){
-  return $('.list').html(generateHtml());
+  return $('.search-results').html(fullHtmlString());
 }
 
