@@ -91,7 +91,7 @@ function handleSearchClick(){
       STORE.searchValue = searchEntry;
       STORE.maxResults = maxResults;
       checksKeywithObj(searchEntry);
-      getParkInfo(STORE.searchValue);
+      getParkInfo(STORE.searchValue, STORE.maxResults);
       
     } catch (e){
       console.log(e);
@@ -103,18 +103,18 @@ function checksKeywithObj(key){
   let stateObject = STORE.states;
   let searcher = key.toLowerCase()
     .split(',')
-    .forEach(entry => {
+    .map((entry, index) => {
       if(entry.length !== 2){
         let newEntry = entry[0].toUpperCase()+entry.slice(1);
         for(let key in stateObject ){
           if(stateObject[key] === newEntry) return key;
         }
-          
+        throw new Error(`Please enter a valid state. For eg. Texas. ${entry} could not be found`);
       }
-      else if(Object.keys(stateObject).includes(entry)){
-        return entry;
+      else if(Object.keys(stateObject).includes(entry.toUpperCase())){
+        return entry.toUpperCase();
       }else{
-        throw new Error('Please enter a valid state. For eg. Texas');
+        throw new Error(`Please enter a valid state. For eg. Texas. ${entry} could not be found`);
       }
 
     });
@@ -143,15 +143,17 @@ function handleQueryParams(paramsObj){
 }
 
 function handleErrors(res){
+  console.log(res)
   if (!res.ok) throw new Error('Problem Getting Data');
-  return res.Json();
+  return res.json();
 }
 
-function getParkInfo(stateCodes, maxValue){
+function getParkInfo(stateCodes, maxValue, addFields = 'addresses'){
   console.log(maxValue);
   const params = {
     stateCode: stateCodes,
     limit: maxValue,
+    fields: addFields,
   };
 
   const queryString = handleQueryParams(params);
@@ -159,14 +161,34 @@ function getParkInfo(stateCodes, maxValue){
   const URL = searchURL + '?' + queryString;
   console.log(URL);
  
-  fetch(URL, {
+  fetch('https://cors-anywhere.herokuapp.com/' +URL, {
     headers: {
       'Cache-Control': 'no-cache',
       'X-Api-Key': 'ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj',
       'Access-Control-Allow-Origin': '*',
+      'accept': 'application/json'
     }
+  })
+    .then(handleErrors)
+    .then(setStore);
+}
+
+function setStore(obj){
+  obj.data.forEach(item => {
+    const addressObj = item.addresses.find(address=> address.type === 'Physical');
+
+    STORE.results.push({
+      name: item.fullName,
+      description: item.description,
+      weblink: item.url,
+      address: {
+        line1: addressObj.line1,
+        line2: addressObj.line2,
+        city: addressObj.city,
+        state: addressObj.stateCode,
+        zip: addressObj.postalCode, 
+      }
+    });
   });
-  const URL = `https://developer.nps.gov/api/v1/parks?limit=${maxValue}&q=${query}&fields=addresses&api_key=ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj" -H "accept: application/json"`;
-  return URL;
 }
 
