@@ -88,10 +88,8 @@ function handleSearchClick(){
     try{
       const searchEntry = $('#search-field').val().trim();
       const maxResults = $('#max-results').val();
-      validateEntry(searchEntry);
-      STORE.searchValue = searchEntry;
+      STORE.searchValue = validateEntry(searchEntry);
       STORE.maxResults = maxResults;
-      checksKeywithObj(searchEntry);
       getParkInfo(STORE.searchValue, STORE.maxResults);
       
     } catch (e){
@@ -100,29 +98,6 @@ function handleSearchClick(){
     }
   });
 }
-function checksKeywithObj(key){
-  let stateObject = STORE.states;
-  let searcher = key.toLowerCase()
-    .split(',')
-    .map((entry, index) => {
-      if(entry.length !== 2){
-        let newEntry = entry[0].toUpperCase()+entry.slice(1);
-        for(let key in stateObject ){
-          if(stateObject[key] === newEntry) return key;
-        }
-        throw new Error(`Please enter a valid state. For eg. Texas. ${entry} could not be found`);
-      }
-      else if(Object.keys(stateObject).includes(entry.toUpperCase())){
-        return entry.toUpperCase();
-      }else{
-        throw new Error(`Please enter a valid state. For eg. Texas. ${entry} could not be found`);
-      }
-
-    });
-  
-  
-  console.log( searcher);
-}
 
 
 function renderError(error = 'No User Found'){
@@ -130,7 +105,28 @@ function renderError(error = 'No User Found'){
 }
 
 function validateEntry(entry){
-  if (entry === '' || entry=== null) throw new Error('Please enter a valid state. For eg. Use Texas, instead of Tx.');
+  if (entry === '' || entry=== null) throw new Error('Please enter a valid state. For eg: Texas, Florida');
+
+  let stateObject = STORE.states;
+  let searchTerms = entry.toUpperCase()
+    .split(/, |,/g )
+    .map(entry=> {
+      if(entry.length !== 2){
+        let newEntry = entry[0] + entry.slice(1).toLowerCase();
+        for(let key in stateObject ){
+          if(stateObject[key] === newEntry) return key;
+        }
+        throw new Error(`Please enter a valid state. For eg. Texas. ${entry} could not be found`);
+      }
+      else if(Object.keys(stateObject).includes(entry)){
+        return entry;
+      }else{
+        throw new Error(`Please enter a valid state. For eg. Texas. ${entry} could not be found`);
+      }
+
+    });
+  console.log(searchTerms);
+  return (searchTerms);
 }
 
 // function handleQuery(){
@@ -161,6 +157,7 @@ function generateHtml(){
     <a href="" class="visit-page"><span >Visit Now ></span></a>
   </div>
 </article>`;
+}
 //function handleQuery
 
 function handleQueryParams(paramsObj){
@@ -172,12 +169,12 @@ function handleQueryParams(paramsObj){
 }
 
 function handleErrors(res){
-  console.log(res)
+  console.log(res);
   if (!res.ok) throw new Error('Problem Getting Data');
   return res.json();
 }
 
-function getParkInfo(stateCodes, maxValue, addFields = 'addresses'){
+function getParkInfo(stateCodes, maxValue, addFields = 'addresses,images,id'){
   console.log(maxValue);
   const params = {
     stateCode: stateCodes,
@@ -216,11 +213,17 @@ function setStore(obj){
         city: addressObj.city,
         state: addressObj.stateCode,
         zip: addressObj.postalCode, 
-      }
+      },
+      image: {
+        alt: item.images[0].altText,
+        caption: item.images[0].caption,
+        src: item.images[0].url,
+      },
+      id: item.id
     });
   });
 }
+
 function render(){
   return $('.list').html(generateHtml());
 }
-
