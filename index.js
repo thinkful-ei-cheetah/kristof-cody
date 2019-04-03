@@ -4,7 +4,8 @@
 $(handleSearchClick());
 
 const STORE = (function(){
-  const results= [];
+  const results= [
+  ];
   let searchValue = '';
   let maxResults = 10;
   const apiKey = 'ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj';
@@ -132,8 +133,34 @@ function validateEntry(entry){
   if (entry === '' || entry=== null) throw new Error('Please enter a valid state. For eg. Use Texas, instead of Tx.');
 }
 
-function handleQuery(){
+// function handleQuery(){
 
+// }
+function generateHtml(){
+  return `<article role="listitem" class="search-result">
+  <div class="info-section">
+    <div class="image-name-container">
+      <div class="img-box">
+        <div class="holder"></div>
+      </div>
+      <div class="park-name-and-adr">
+        <h2 class="park-name">Zion National park</h2>
+        <div class="park-address">
+          <span class= "address-text address-line-1">2 Officers Row</span>
+          <br>
+          <span class= "address-text address-line-2">Yellowstone National Park Headquarters</span>
+          <br>
+          <span class= "address-text address-line-3">Yellowstone National Park, WY 82190</span>
+        </div>
+      </div>
+    </div>
+    <h4 class="park-descripion">Visit Yellowstone and experience the world's first national park. Marvel at a volcano's hidden power rising up in colorful hot springs, mudpots, and geysers. Explore mountains, forests, and lakes to watch wildlife and witness the drama of the natural world unfold. Discover the history that led to the conservation of our national treasures 'for the benefit and enjoyment of the people.
+    </h4>
+  </div>
+  <div class="website-link">
+    <a href="" class="visit-page"><span >Visit Now ></span></a>
+  </div>
+</article>`;
 }
 
 
@@ -142,5 +169,8 @@ function getParkInfo(query, maxValue){
 
   const URL = `https://developer.nps.gov/api/v1/parks?limit=${maxValue}&q=${query}&fields=addresses&api_key=ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj" -H "accept: application/json"`;
   return URL;
+}
+function render(){
+  return $('.list').html(generateHtml());
 }
 
