@@ -104,8 +104,9 @@ function getParkInfo(stateCodes, maxValue, addFields = 'addresses,images,id'){
   const queryString = handleQueryParams(params);
   const searchURL = 'https://developer.nps.gov/api/v1/parks';
   const URL = searchURL + '?' + queryString;
+  const corsProxy = 'https://cors-anywhere.herokuapp.com/'
  
-  fetch('https://cors-anywhere.herokuapp.com/' +URL, {
+  fetch( URL, {
     headers: {
       'Cache-Control': 'no-cache',
       'X-Api-Key': 'ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj',
