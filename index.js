@@ -105,7 +105,7 @@ function getParkInfo(stateCodes, maxValue, addFields = 'addresses,images,id'){
   const URL = searchURL + '?' + queryString;
   const corsProxy = 'https://cors-anywhere.herokuapp.com/'
  
-  fetch( corsProxy +URL, {
+  fetch(URL, {
     headers: {
       'Cache-Control': 'no-cache',
       'X-Api-Key': 'ehbmagD9RS6YJFYM6Wdo4jmpdJMdXKCVnHcA17qj',
